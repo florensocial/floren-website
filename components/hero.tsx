@@ -68,35 +68,34 @@ export function Hero({ t }: HeroProps) {
   return (
     <section 
       id="home" 
-      // pt-32 та md:pt-40 опускають весь контент нижче фіксованого меню
       className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#FAF8F6] px-6 pt-32 pb-16 md:pt-40 md:pb-10"
     >
       {/* 1. Deep Background Layer (Animated Blobs) */}
       <motion.div style={isDesktop ? { x: bgX, y: bgY } : {}} className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
-        {/* Blob 1 - Optimized for mobile with smaller blur */}
+        {/* Blob 1 - Збільшено opacity з [0.15, 0.25, 0.15] на [0.3, 0.45, 0.3] */}
         <motion.div
           animate={{
             scale: [1, 1.1, 1],
-            opacity: [0.15, 0.25, 0.15],
+            opacity: [0.3, 0.45, 0.3],
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           className="absolute h-[50vh] w-[70vw] md:h-[40vh] md:w-[40vw] rounded-full bg-[#6C0B1C] blur-[70px] md:blur-[120px] will-change-transform"
         />
-        {/* Blob 2 - Hidden on mobile to prevent lag */}
+        {/* Blob 2 - Збільшено opacity з [0.1, 0.2, 0.1] на [0.2, 0.35, 0.2] */}
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
-            opacity: [0.1, 0.2, 0.1],
+            opacity: [0.2, 0.35, 0.2],
           }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
           className="absolute ml-[30vw] mt-[20vh] hidden md:block h-[35vh] w-[35vw] rounded-full bg-[#480713] blur-[100px] will-change-transform"
         />
-        {/* Blob 3 - White glow */}
+        {/* Blob 3 - Збільшено opacity з [0.3, 0.5, 0.3] на [0.4, 0.6, 0.4] */}
         <motion.div
           animate={{
             y: [0, -30, 0],
-            opacity: [0.3, 0.5, 0.3],
+            opacity: [0.4, 0.6, 0.4],
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           className="absolute -ml-[10vw] -mt-[20vh] h-[40vh] w-[60vw] md:h-[50vh] md:w-[50vw] rounded-full bg-white blur-[60px] md:blur-[90px] will-change-transform"
@@ -106,7 +105,6 @@ export function Hero({ t }: HeroProps) {
       {/* 2. Abstract Digital Composition Layer */}
       <div className="absolute inset-0 z-10 mx-auto max-w-7xl pointer-events-none">
         <motion.div style={isDesktop ? { x: midX, y: midY } : {}} className="absolute inset-0">
-          {/* Glass Card - Hidden on mobile for cleaner look & performance */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -117,13 +115,13 @@ export function Hero({ t }: HeroProps) {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-            className="absolute -right-20 top-[10%] h-[400px] w-[400px] rounded-full border-[1px] border-[#6C0B1C]/10 border-dashed hidden md:block will-change-transform"
+            className="absolute -right-20 top-[10%] h-[400px] w-[400px] rounded-full border-[1px] border-[#6C0B1C]/20 border-dashed hidden md:block will-change-transform"
           />
 
           <motion.div
              animate={{ y: [0, 15, 0] }}
              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-             className="absolute bottom-[20%] left-[20%] hidden h-12 w-12 rounded-full border border-[#6C0B1C]/15 bg-white/40 backdrop-blur-sm md:block will-change-transform"
+             className="absolute bottom-[20%] left-[20%] hidden h-12 w-12 rounded-full border border-[#6C0B1C]/25 bg-white/40 backdrop-blur-sm md:block will-change-transform"
           />
         </motion.div>
       </div>
