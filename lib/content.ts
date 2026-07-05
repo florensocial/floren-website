@@ -42,7 +42,7 @@ export const packages: Package[] = [
       "Basis-Videomontage & Untertitel",
       "Laufender Support via Messenger",
     ],
-    cta: "Paket wählen",
+    cta: "Jetzt anfragen",
   },
   {
     id: "growth",
@@ -59,7 +59,7 @@ export const packages: Package[] = [
       "3 Story-Highlights",
       "Laufender Support & Beratung",
     ],
-    cta: "Jetzt durchstarten",
+    cta: "Jetzt anfragen",
     popular: true,
   },
   {
@@ -76,7 +76,7 @@ export const packages: Package[] = [
       "Bis zu 5 Story-Highlights",
       "Priority Support & Strategie-Calls",
     ],
-    cta: "Paket wählen",
+    cta: "Jetzt anfragen",
   },
 ];
 
