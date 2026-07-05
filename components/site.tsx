@@ -7,7 +7,7 @@ import type { MouseEvent } from "react";
 import { dictionary, packages, type Lang, type Package } from "@/lib/content";
 import { Icon } from "./icons";
 import { Hero } from "./hero";
-import Intro from "./intro"
+import Intro from "./intro"; // Імпортуємо нову секцію
 
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
@@ -177,7 +177,7 @@ export function Site({
               sizes="176px"
             />
           </Link>
-
+        
           <div className="hidden items-center justify-center gap-2 md:flex">
             {nav.map(([id, label]) => (
               <Link
@@ -195,11 +195,11 @@ export function Site({
               </Link>
             ))}
           </div>
-
+        
           <div className="hidden justify-self-end md:flex">
             <LanguageSwitch lang={lang} setLang={setLang} />
           </div>
-
+        
           <button
             type="button"
             onClick={() => setMenuOpen((value) => !value)}
@@ -237,46 +237,20 @@ export function Site({
         </div>
       </header>
 
-      <main>{contactOnly ? <Contact lang={lang} selectedPackage={selectedPackage} standalone /> : <><Hero t={t} /><Intro t={t} /><Services t={t} /><Contact lang={lang} /></>}</main>
+      <main>
+        {contactOnly ? (
+          <Contact lang={lang} selectedPackage={selectedPackage} standalone />
+        ) : (
+          <>
+            <Hero t={t} />
+            <Intro t={t} />
+            <Services t={t} />
+            <Contact lang={lang} />
+          </>
+        )}
+      </main>
       <Footer t={t} />
     </div>
-  );
-}
-
-function Intro({ t }: { t: Copy }) {
-  return (
-    <section className="relative px-6 py-32 md:py-40">
-      <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A45A] to-transparent" />
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="luxury-card reveal-up rounded-[2.5rem] p-6 md:p-8">
-          <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] bg-[#480713] p-8 text-white">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(201,164,90,.35),transparent_26%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,.16),transparent_32%)]" />
-            <Image src="/logos/brandmark_withoutbg.png" alt="" width={260} height={260} className="absolute bottom-[-70px] right-[-55px] opacity-10" />
-            <div className="relative z-10 flex h-full min-h-[360px] flex-col justify-between">
-              <Image src="/logos/floren_full_color_withoutbg.png" alt="Floren" width={150} height={80} className="brightness-0 invert" />
-              <div>
-                <p className="text-sm uppercase tracking-[0.28em] text-[#C9A45A]">Austrian Social Media Agency</p>
-                <p className="mt-5 font-serif text-5xl leading-none">Quiet luxury. Measurable presence.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="reveal-up">
-          <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#C9A45A]">{t.intro.eyebrow}</p>
-          <h2 className="mt-5 font-serif text-5xl font-semibold leading-[1.04] tracking-[-0.035em] md:text-7xl">{t.intro.title}</h2>
-          <p className="mt-7 max-w-2xl text-lg leading-9 text-[#5E5E5E]">{t.intro.text}</p>
-          <div className="mt-10 grid gap-3 sm:grid-cols-3">
-            {t.intro.points.map((point) => (
-              <div key={point} className="rounded-3xl border border-[#E8E2DC] bg-white px-5 py-5 shadow-sm transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(72,7,19,.08)]">
-                <Icon name="sparkle" className="mb-4 h-5 w-5 text-[#C9A45A]" />
-                <p className="font-serif text-2xl text-[#480713]">{point}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 
