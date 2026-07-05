@@ -31,23 +31,13 @@ async function sendTelegram(text: string) {
 
   if (!token || !chatId) return { skipped: true };
 
-  const res = await fetch(
-    `https://api.telegram.org/bot${token}/sendMessage`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-      }),
-    }
-  );
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, text }),
+  });
 
-  if (!res.ok) {
-    throw new Error("Telegram notification failed");
-  }
+  if (!res.ok) throw new Error("Telegram notification failed");
 
   return { skipped: false };
 }
@@ -58,27 +48,18 @@ export async function POST(request: Request) {
 
     for (const key of required) {
       if (!data[key] || String(data[key]).trim().length < 2) {
-        return Response.json(
-          { error: `Invalid ${key}` },
-          { status: 400 }
-        );
+        return Response.json({ error: `Invalid ${key}` }, { status: 400 });
       }
     }
 
     if (!validEmail(String(data.email))) {
-      return Response.json(
-        { error: "Invalid email" },
-        { status: 400 }
-      );
+      return Response.json({ error: "Invalid email" }, { status: 400 });
     }
 
     await sendTelegram(notificationText(data));
 
     return Response.json({ ok: true });
   } catch {
-    return Response.json(
-      { error: "Unable to send enquiry" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Unable to send enquiry" }, { status: 500 });
   }
 }

@@ -2,14 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import { dictionary, packages, type Lang, type Package } from "@/lib/content";
 import { Icon } from "./icons";
 
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
 
-function PrimaryButton({ href, children, variant = "dark" }: { href: string; children: React.ReactNode; variant?: "dark" | "light" }) {
+function PrimaryButton({
+  href,
+  children,
+  variant = "dark",
+}: {
+  href: string;
+  children: React.ReactNode;
+  variant?: "dark" | "light";
+}) {
   const classes =
     variant === "dark"
       ? "bg-[#6C0B1C] text-white shadow-[0_18px_45px_rgba(108,11,28,.24)] hover:bg-[#5A0917] hover:shadow-[0_24px_60px_rgba(108,11,28,.3)]"
@@ -26,15 +35,23 @@ function PrimaryButton({ href, children, variant = "dark" }: { href: string; chi
   );
 }
 
-function LanguageSwitch({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) => void }) {
+function LanguageSwitch({
+  lang,
+  setLang,
+}: {
+  lang: Lang;
+  setLang: (lang: Lang) => void;
+}) {
   return (
-    <div className="flex rounded-full border border-[#E8E2DC] bg-white p-1 text-xs font-bold shadow-sm">
+    <div className="flex w-fit rounded-full border border-[#E8E2DC] bg-white p-1 text-xs font-bold shadow-sm">
       {(["de", "en"] as const).map((item) => (
         <button
           key={item}
           onClick={() => setLang(item)}
           className={`rounded-full px-3 py-1.5 transition ${
-            lang === item ? "bg-[#480713] text-white" : "text-[#5E5E5E] hover:text-[#480713]"
+            lang === item
+              ? "bg-[#480713] text-white"
+              : "text-[#5E5E5E] hover:text-[#480713]"
           }`}
           type="button"
         >
@@ -45,26 +62,61 @@ function LanguageSwitch({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) =
   );
 }
 
-export function Site({ initialLang = "de" as Lang, contactOnly = false, selectedPackage = "" }) {
+export function Site({
+  initialLang = "de" as Lang,
+  contactOnly = false,
+  selectedPackage = "",
+}) {
   const [lang, setLang] = useState<Lang>(initialLang);
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const scrollLock = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeScrollTarget = useRef<string | null>(null);
+
   const t = dictionary[lang];
 
   useEffect(() => {
-    const ids = ["home", "services", "contact"];
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => entry.isIntersecting && setActive(entry.target.id)),
-      { rootMargin: "-38% 0px -52%" },
-    );
+  const ids = ["home", "services", "contact"];
 
-    ids.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (activeScrollTarget.current) return;
 
-    return () => observer.disconnect();
-  }, []);
+      const visibleEntry = entries
+        .filter(
+          (entry) =>
+            entry.isIntersecting && entry.intersectionRatio >= 0.34
+        )
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visibleEntry) {
+        setActive(visibleEntry.target.id);
+      }
+    },
+    {
+      rootMargin: "-24% 0px -46%",
+      threshold: [0.34, 0.5, 0.68],
+    }
+  );
+
+  ids.forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      observer.observe(element);
+    }
+  });
+
+  return () => {
+    observer.disconnect();
+
+    if (scrollLock.current) {
+      clearTimeout(scrollLock.current);
+    }
+
+    activeScrollTarget.current = null;
+  };
+}, []);
 
   const nav = [
     ["home", t.nav.home],
@@ -72,14 +124,41 @@ export function Site({ initialLang = "de" as Lang, contactOnly = false, selected
     ["contact", t.nav.contact],
   ] as const;
 
-  const navHref = (id: string) => (id === "contact" ? "/contact" : `/#${id}`);
+  const navHref = (id: string) => `/#${id}`;
+
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    const section = document.getElementById(id);
+
+    if (!section) return;
+
+    event.preventDefault();
+    setActive(id);
+    setMenuOpen(false);
+
+    activeScrollTarget.current = id;
+    if (scrollLock.current) clearTimeout(scrollLock.current);
+
+    const unlockActiveSection = () => {
+      activeScrollTarget.current = null;
+      if (scrollLock.current) clearTimeout(scrollLock.current);
+      scrollLock.current = null;
+      window.removeEventListener("scrollend", unlockActiveSection);
+    };
+
+    scrollLock.current = setTimeout(unlockActiveSection, 1400);
+    window.addEventListener("scrollend", unlockActiveSection, { once: true });
+
+    requestAnimationFrame(() => {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#FAF8F6] text-[#1B1B1B]">
       <header className="fixed inset-x-0 top-0 z-50 px-4 py-4">
         <nav className="glass-panel mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-3 md:px-5" aria-label="Main">
-          <Link href="/#home" className="relative h-8 w-28" onClick={() => setMenuOpen(false)}>
-            <Image src="/logos/floren_text_only_withoutbg.png" alt="Floren" fill className="object-contain" priority sizes="112px" />
+          <Link href="/#home" className="relative h-11 w-40 shrink-0" onClick={(event) => handleNavClick(event, "home")} aria-current={active === "home" ? "page" : undefined}>
+            <Image src="/logos/floren_full_color_withoutbg.png" alt="Floren" fill className="object-contain" priority sizes="144px" />
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
@@ -87,6 +166,8 @@ export function Site({ initialLang = "de" as Lang, contactOnly = false, selected
               <Link
                 key={id}
                 href={navHref(id)}
+                onClick={(event) => handleNavClick(event, id)}
+                aria-current={active === id ? "page" : undefined}
                 className={`rounded-full px-4 py-2 text-sm transition ${
                   active === id ? "bg-[#6C0B1C] text-white" : "text-[#5E5E5E] hover:bg-white hover:text-[#1B1B1B]"
                 }`}
@@ -116,18 +197,21 @@ export function Site({ initialLang = "de" as Lang, contactOnly = false, selected
             menuOpen ? "max-h-96 translate-y-0 opacity-100" : "max-h-0 -translate-y-3 opacity-0"
           }`}
         >
-          <div className="grid gap-2 p-4">
+          <div className="grid gap-4 p-5">
             {nav.map(([id, label]) => (
               <Link
                 key={id}
                 href={navHref(id)}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm font-medium text-[#480713] hover:bg-[#FAF8F6]"
+                onClick={(event) => handleNavClick(event, id)}
+                aria-current={active === id ? "page" : undefined}
+                className={`rounded-2xl px-5 py-4 text-center text-sm font-medium transition ${
+                  active === id ? "bg-[#6C0B1C] text-white" : "text-[#480713] hover:bg-[#FAF8F6]"
+                }`}
               >
                 {label}
               </Link>
             ))}
-            <div className="px-2 pt-2">
+            <div className="flex justify-center px-2 pt-4">
               <LanguageSwitch lang={lang} setLang={setLang} />
             </div>
           </div>
