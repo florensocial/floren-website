@@ -9,7 +9,7 @@ type HeroProps = {
   t: any;
 };
 
-export default function Hero({ t }: HeroProps) {
+export function Hero({ t }: HeroProps) {
   const [isDesktop, setIsDesktop] = useState(true);
 
   // Mouse tracking for parallax effect
