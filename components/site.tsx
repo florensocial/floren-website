@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { dictionary, packages, type Lang, type Package } from "@/lib/content";
 import { Icon } from "./icons";
+import { Hero } from "./hero";
 
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
@@ -77,46 +78,46 @@ export function Site({
   const t = dictionary[lang];
 
   useEffect(() => {
-  const ids = ["home", "services", "contact"];
+    const ids = ["home", "services", "contact"];
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (activeScrollTarget.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (activeScrollTarget.current) return;
 
-      const visibleEntry = entries
-        .filter(
-          (entry) =>
-            entry.isIntersecting && entry.intersectionRatio >= 0.34
-        )
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        const visibleEntry = entries
+          .filter(
+            (entry) =>
+              entry.isIntersecting && entry.intersectionRatio >= 0.34
+          )
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-      if (visibleEntry) {
-        setActive(visibleEntry.target.id);
+        if (visibleEntry) {
+          setActive(visibleEntry.target.id);
+        }
+      },
+      {
+        rootMargin: "-24% 0px -46%",
+        threshold: [0.34, 0.5, 0.68],
       }
-    },
-    {
-      rootMargin: "-24% 0px -46%",
-      threshold: [0.34, 0.5, 0.68],
-    }
-  );
+    );
 
-  ids.forEach((id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      observer.observe(element);
-    }
-  });
+    ids.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
 
-  return () => {
-    observer.disconnect();
+    return () => {
+      observer.disconnect();
 
-    if (scrollLock.current) {
-      clearTimeout(scrollLock.current);
-    }
+      if (scrollLock.current) {
+        clearTimeout(scrollLock.current);
+      }
 
-    activeScrollTarget.current = null;
-  };
-}, []);
+      activeScrollTarget.current = null;
+    };
+  }, []);
 
   const nav = [
     ["home", t.nav.home],
@@ -175,7 +176,7 @@ export function Site({
               sizes="176px"
             />
           </Link>
-        
+
           <div className="hidden items-center justify-center gap-2 md:flex">
             {nav.map(([id, label]) => (
               <Link
@@ -193,11 +194,11 @@ export function Site({
               </Link>
             ))}
           </div>
-        
+
           <div className="hidden justify-self-end md:flex">
             <LanguageSwitch lang={lang} setLang={setLang} />
           </div>
-        
+
           <button
             type="button"
             onClick={() => setMenuOpen((value) => !value)}
@@ -238,47 +239,6 @@ export function Site({
       <main>{contactOnly ? <Contact lang={lang} selectedPackage={selectedPackage} standalone /> : <><Hero t={t} /><Intro t={t} /><Services t={t} /><Contact lang={lang} /></>}</main>
       <Footer t={t} />
     </div>
-  );
-}
-
-function Hero({ t }: { t: Copy }) {
-  return (
-    <section id="home" className="relative flex min-h-[105svh] items-center px-6 pb-20 pt-32 md:pt-40">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_10%,rgba(201,164,90,.22),transparent_28%),radial-gradient(circle_at_18%_42%,rgba(108,11,28,.18),transparent_30%),linear-gradient(180deg,#FAF8F6_0%,#F5F1EE_100%)]" />
-      <div className="pulse-glow absolute left-1/2 top-28 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#6C0B1C]/10 blur-3xl" />
-      <div className="float-slow burgundy-orb absolute -left-20 top-56 h-48 w-48 rounded-full opacity-20 blur-sm" />
-      <div className="float-medium absolute right-8 top-36 h-28 w-28 rounded-[2rem] border border-[#C9A45A]/40 bg-white/42 backdrop-blur-md" />
-      <div className="float-slow absolute bottom-20 right-[-5rem] h-72 w-72 rounded-full border border-[#E8E2DC] bg-white/34" />
-
-      <div className="mx-auto max-w-6xl text-center">
-        <div className="reveal-soft mx-auto mb-8 flex w-fit items-center gap-3 rounded-full border border-[#E8E2DC] bg-white/72 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#6C0B1C] shadow-sm backdrop-blur-xl">
-          <Image src="/logos/brandmark_withoutbg.png" alt="" width={18} height={18} className="opacity-80" />
-          {t.hero.eyebrow}
-        </div>
-
-        <h1 className="reveal-up mx-auto max-w-5xl font-serif text-5xl font-semibold leading-[1.02] tracking-[-0.035em] text-[#1B1B1B] md:text-6xl lg:text-7xl">
-          {t.hero.title}
-        </h1>
-
-        <p className="reveal-up mx-auto mt-7 max-w-2xl text-base leading-8 text-[#5E5E5E] md:text-lg">
-          {t.hero.text}
-        </p>
-
-        <div className="reveal-up mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-          <PrimaryButton href="/contact">{t.hero.cta}</PrimaryButton>
-          <PrimaryButton href="/#services" variant="light">{t.hero.secondary}</PrimaryButton>
-        </div>
-
-        <div className="reveal-up mx-auto mt-16 grid max-w-4xl gap-4 rounded-[2rem] border border-[#E8E2DC] bg-white/62 p-3 shadow-[0_28px_80px_rgba(72,7,19,.1)] backdrop-blur-xl md:grid-cols-3">
-          {[t.hero.metricOne, t.hero.metricTwo, t.hero.metricThree].map((item, index) => (
-            <div key={item} className="rounded-[1.5rem] bg-white/72 px-6 py-6 text-center">
-              <p className="font-serif text-4xl text-[#480713]">0{index + 1}</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#5E5E5E]">{item}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
 
