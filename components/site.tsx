@@ -4,10 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import { dictionary, packages, type Lang, type Package } from "@/lib/content";
+import { dictionary, packages, type Lang } from "@/lib/content";
 import { Icon } from "./icons";
 import { Hero } from "./hero";
-import Intro from "./intro"; // Імпортуємо нову секцію
+import Intro from "./intro";
+import Services from "./services"; // <-- Підключаємо новий файл тарифів
 
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
@@ -24,7 +25,7 @@ function PrimaryButton({
   const classes =
     variant === "dark"
       ? "bg-[#6C0B1C] text-white shadow-[0_18px_45px_rgba(108,11,28,.24)] hover:bg-[#5A0917] hover:shadow-[0_24px_60px_rgba(108,11,28,.3)]"
-      : "border border-[#E8E2DC] bg-white/82 text-[#480713] hover:border-[#C9A45A] hover:bg-white";
+      : "border border-[#E8E2DC] bg-white/82 text-[#480713] hover:border-[#6C0B1C]/30 hover:bg-white"; // Прибрав золото з ховеру
 
   return (
     <Link
@@ -244,6 +245,7 @@ export function Site({
           <>
             <Hero t={t} />
             <Intro t={t} />
+            {/* Викликаємо новий ізольований компонент */}
             <Services t={t} />
             <Contact lang={lang} />
           </>
@@ -251,100 +253,6 @@ export function Site({
       </main>
       <Footer t={t} />
     </div>
-  );
-}
-
-function Services({ t }: { t: Copy }) {
-  const featured = packages.find((item) => item.featured);
-  const standard = packages.filter((item) => !item.featured);
-
-  return (
-    <section id="services" className="relative overflow-hidden bg-[#F5F1EE] px-6 py-32 md:py-40">
-      <div className="absolute left-1/2 top-20 h-96 w-96 -translate-x-1/2 rounded-full bg-[#6C0B1C]/10 blur-3xl" />
-      <div className="absolute -right-32 bottom-32 h-80 w-80 rounded-full border border-[#C9A45A]/30" />
-
-      <div className="relative mx-auto max-w-7xl">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#6C0B1C]">{t.services.eyebrow}</p>
-          <h2 className="mt-5 font-serif text-5xl font-semibold tracking-[-0.035em] md:text-7xl">
-            {t.services.titleStart} <span className="text-[#C9A45A]">{t.services.titleHighlight}</span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#5E5E5E] md:text-lg">{t.services.text}</p>
-        </div>
-
-        {featured ? <FeaturedPackage item={featured} /> : null}
-
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {standard.map((item) => (
-            <PricingCard key={item.id} item={item} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FeaturedPackage({ item }: { item: Package }) {
-  return (
-    <article className="reveal-up luxury-card mx-auto mt-16 max-w-3xl rounded-[2.5rem] p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_35px_110px_rgba(72,7,19,.16)] md:p-8">
-      <div className="rounded-[2rem] bg-[linear-gradient(135deg,#480713,#6C0B1C)] p-7 text-white md:p-10">
-        {item.badge ? <p className="w-fit rounded-full border border-[#C9A45A]/40 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#C9A45A]">{item.badge}</p> : null}
-        <div className="mt-8 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <h3 className="font-serif text-5xl font-semibold tracking-[-0.025em]">{item.name}</h3>
-            <p className="mt-4 max-w-xl leading-8 text-white/78">{item.description}</p>
-          </div>
-          <p className="font-serif text-7xl font-semibold leading-none text-[#C9A45A]">{item.price}</p>
-        </div>
-        <ul className="mt-9 grid gap-3 md:grid-cols-2">
-          {item.features.map((feature) => (
-            <li key={feature} className="flex items-center gap-3 rounded-2xl bg-white/8 px-4 py-3 text-sm text-white/88">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#C9A45A] text-[#480713]">
-                <Icon name="check" className="h-3.5 w-3.5" />
-              </span>
-              {feature}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-9">
-          <PrimaryButton href={`/contact?package=${encodeURIComponent(item.id)}`} variant="light">{item.cta}</PrimaryButton>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function PricingCard({ item }: { item: Package }) {
-  return (
-    <article
-      className={`reveal-up group relative flex min-h-[620px] flex-col rounded-[2.25rem] border bg-white p-7 transition duration-300 hover:-translate-y-2 md:p-8 ${
-        item.popular
-          ? "border-[#6C0B1C] shadow-[0_30px_90px_rgba(108,11,28,.18)]"
-          : "border-[#E8E2DC] shadow-[0_24px_70px_rgba(72,7,19,.08)] hover:shadow-[0_32px_85px_rgba(72,7,19,.13)]"
-      }`}
-    >
-      {item.popular ? <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#6C0B1C] px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg">{item.badge}</div> : null}
-      <div className="absolute right-6 top-6 h-20 w-20 rounded-full bg-[#FAF8F6] transition group-hover:scale-110" />
-      <div className="relative">
-        <h3 className="font-serif text-5xl font-semibold tracking-[-0.03em] text-[#480713]">{item.name}</h3>
-        <p className="mt-5 font-serif text-5xl font-semibold text-[#1B1B1B]">{item.price}</p>
-        <p className="mt-5 min-h-16 leading-7 text-[#5E5E5E]">{item.description}</p>
-      </div>
-      <div className="my-8 h-px bg-gradient-to-r from-transparent via-[#E8E2DC] to-transparent" />
-      <ul className="relative space-y-4">
-        {item.features.map((feature) => (
-          <li key={feature} className="flex gap-3 text-sm leading-6 text-[#5E5E5E]">
-            <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FAF8F6] text-[#6C0B1C]">
-              <Icon name="check" className="h-3.5 w-3.5" />
-            </span>
-            {feature}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto pt-9">
-        <PrimaryButton href={`/contact?package=${encodeURIComponent(item.id)}`}>{item.cta}</PrimaryButton>
-      </div>
-    </article>
   );
 }
 
@@ -371,16 +279,17 @@ export function Contact({ lang, selectedPackage = "", standalone = false }: { la
 
   return (
     <section id="contact" className={`relative px-6 ${standalone ? "min-h-screen pt-36" : "py-32 md:py-40"}`}>
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(201,164,90,.16),transparent_26%),radial-gradient(circle_at_85%_45%,rgba(108,11,28,.12),transparent_30%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(201,164,90,.05),transparent_26%),radial-gradient(circle_at_85%_45%,rgba(108,11,28,.08),transparent_30%)]" />
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div className="reveal-up lg:sticky lg:top-32">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#C9A45A]">{t.eyebrow}</p>
+          {/* Золото прибрано */}
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#6C0B1C]">{t.eyebrow}</p>
           <h2 className="mt-5 font-serif text-5xl font-semibold leading-[1.04] tracking-[-0.035em] md:text-7xl">{t.title}</h2>
           <p className="mt-7 max-w-xl text-lg leading-9 text-[#5E5E5E]">{t.text}</p>
 
           {packageItem ? (
-            <div className="mt-10 max-w-md rounded-[2rem] border border-[#E8E2DC] bg-white p-6 shadow-[0_24px_70px_rgba(72,7,19,.1)]">
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#C9A45A]">{t.package}</p>
+            <div className="mt-10 max-w-md rounded-[2rem] border border-[#6C0B1C]/15 bg-white p-6 shadow-[0_24px_70px_rgba(72,7,19,.08)]">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#6C0B1C]">{t.package}</p>
               <div className="mt-5 flex items-end justify-between gap-6">
                 <div>
                   <p className="font-serif text-4xl text-[#480713]">{packageItem.name}</p>
@@ -392,7 +301,7 @@ export function Contact({ lang, selectedPackage = "", standalone = false }: { la
           ) : null}
         </div>
 
-        <form onSubmit={submit} className="reveal-up glass-panel rounded-[2.5rem] p-5 md:p-8 lg:p-10">
+        <form onSubmit={submit} className="reveal-up glass-panel rounded-[2.5rem] p-5 md:p-8 lg:p-10 border-[#6C0B1C]/10">
           <input type="hidden" name="package" value={packageItem?.name ?? ""} />
           <div className="grid gap-5 md:grid-cols-2">
             <Field label={t.name} name="name" required />
@@ -404,7 +313,7 @@ export function Contact({ lang, selectedPackage = "", standalone = false }: { la
                 name="message"
                 rows={6}
                 placeholder={t.messagePlaceholder}
-                className="mt-3 w-full resize-none rounded-[1.5rem] border border-[#E8E2DC] bg-white/88 px-5 py-4 text-[#1B1B1B] shadow-inner outline-none transition placeholder:text-[#5E5E5E]/55 focus:border-[#C9A45A] focus:ring-4 focus:ring-[#C9A45A]/15"
+                className="mt-3 w-full resize-none rounded-[1.5rem] border border-[#E8E2DC] bg-white/88 px-5 py-4 text-[#1B1B1B] shadow-inner outline-none transition placeholder:text-[#5E5E5E]/55 focus:border-[#6C0B1C]/30 focus:ring-4 focus:ring-[#6C0B1C]/10"
               />
             </label>
           </div>
@@ -432,7 +341,7 @@ function Field({ label, name, type = "text", required = false, className = "" }:
         required={required}
         type={type}
         name={name}
-        className="mt-3 w-full rounded-[1.35rem] border border-[#E8E2DC] bg-white/88 px-5 py-4 text-[#1B1B1B] shadow-inner outline-none transition placeholder:text-[#5E5E5E]/55 focus:border-[#C9A45A] focus:ring-4 focus:ring-[#C9A45A]/15"
+        className="mt-3 w-full rounded-[1.35rem] border border-[#E8E2DC] bg-white/88 px-5 py-4 text-[#1B1B1B] shadow-inner outline-none transition placeholder:text-[#5E5E5E]/55 focus:border-[#6C0B1C]/30 focus:ring-4 focus:ring-[#6C0B1C]/10"
       />
     </label>
   );
