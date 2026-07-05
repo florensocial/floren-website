@@ -10,7 +10,15 @@ import { Icon } from "./icons";
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
 
-function PrimaryButton({ href, children, variant = "dark" }: { href: string; children: React.ReactNode; variant?: "dark" | "light" }) {
+function PrimaryButton({
+  href,
+  children,
+  variant = "dark",
+}: {
+  href: string;
+  children: React.ReactNode;
+  variant?: "dark" | "light";
+}) {
   const classes =
     variant === "dark"
       ? "bg-[#6C0B1C] text-white shadow-[0_18px_45px_rgba(108,11,28,.24)] hover:bg-[#5A0917] hover:shadow-[0_24px_60px_rgba(108,11,28,.3)]"
@@ -27,7 +35,13 @@ function PrimaryButton({ href, children, variant = "dark" }: { href: string; chi
   );
 }
 
-function LanguageSwitch({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) => void }) {
+function LanguageSwitch({
+  lang,
+  setLang,
+}: {
+  lang: Lang;
+  setLang: (lang: Lang) => void;
+}) {
   return (
     <div className="flex w-fit rounded-full border border-[#E8E2DC] bg-white p-1 text-xs font-bold shadow-sm">
       {(["de", "en"] as const).map((item) => (
@@ -35,7 +49,9 @@ function LanguageSwitch({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) =
           key={item}
           onClick={() => setLang(item)}
           className={`rounded-full px-3 py-1.5 transition ${
-            lang === item ? "bg-[#480713] text-white" : "text-[#5E5E5E] hover:text-[#480713]"
+            lang === item
+              ? "bg-[#480713] text-white"
+              : "text-[#5E5E5E] hover:text-[#480713]"
           }`}
           type="button"
         >
@@ -46,40 +62,61 @@ function LanguageSwitch({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) =
   );
 }
 
-export function Site({ initialLang = "de" as Lang, contactOnly = false, selectedPackage = "" }) {
+export function Site({
+  initialLang = "de" as Lang,
+  contactOnly = false,
+  selectedPackage = "",
+}) {
   const [lang, setLang] = useState<Lang>(initialLang);
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+
   const scrollLock = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeScrollTarget = useRef<string | null>(null);
+
   const t = dictionary[lang];
 
   useEffect(() => {
-    const ids = ["home", "services", "contact"];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (activeScrollTarget.current) return;
+  const ids = ["home", "services", "contact"];
 
-        const visibleEntry = entries
-          .filter((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.34)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (activeScrollTarget.current) return;
 
-        if (visibleEntry) setActive(visibleEntry.target.id);
-      },
-      { rootMargin: "-24% 0px -46%", threshold: [0.34, 0.5, 0.68] },
-    );
+      const visibleEntry = entries
+        .filter(
+          (entry) =>
+            entry.isIntersecting && entry.intersectionRatio >= 0.34
+        )
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-    ids.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+      if (visibleEntry) {
+        setActive(visibleEntry.target.id);
+      }
+    },
+    {
+      rootMargin: "-24% 0px -46%",
+      threshold: [0.34, 0.5, 0.68],
+    }
+  );
 
-    return () => {
-      observer.disconnect();
-      if (scrollLock.current) clearTimeout(scrollLock.current);
-      activeScrollTarget.current = null;
-    };
-  }, []);
+  ids.forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      observer.observe(element);
+    }
+  });
+
+  return () => {
+    observer.disconnect();
+
+    if (scrollLock.current) {
+      clearTimeout(scrollLock.current);
+    }
+
+    activeScrollTarget.current = null;
+  };
+}, []);
 
   const nav = [
     ["home", t.nav.home],
