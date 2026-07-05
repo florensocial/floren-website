@@ -162,7 +162,7 @@ export function Site({
         >
           <Link
             href="/#home"
-            className="relative h-12 w-44 justify-self-start"
+            className="relative h-8 w-28 justify-self-start"
             onClick={(event) => handleNavClick(event, "home")}
             aria-current={active === "home" ? "page" : undefined}
           >
