@@ -157,7 +157,7 @@ export function Site({
     <div className="min-h-screen overflow-hidden bg-[#FAF8F6] text-[#1B1B1B]">
       <header className="fixed inset-x-0 top-0 z-50 px-4 py-4">
         <nav
-          className="glass-panel mx-auto grid max-w-7xl grid-cols-[190px_1fr_190px] items-center rounded-full px-5 py-3"
+          className="glass-panel mx-auto flex items-center justify-between rounded-full px-5 py-3 md:grid md:max-w-7xl md:grid-cols-[220px_1fr_220px] md:items-center"
           aria-label="Main"
         >
           <Link
