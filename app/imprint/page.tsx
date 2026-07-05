@@ -1,0 +1,2 @@
+export const metadata = { title: 'Impressum' };
+export default function Imprint(){return <main className="mx-auto max-w-3xl px-6 py-28"><h1 className="font-serif text-6xl">Impressum / Imprint</h1><div className="mt-8 space-y-3 text-[#5E5E5E]"><p>Floren GmbH (Platzhalter)</p><p>Musterstraße 1, 1010 Wien, Österreich</p><p>E-Mail: hello@floren.at</p><p>Firmenbuchnummer, UID und Aufsichtsbehörde: Platzhalter.</p></div></main>}
