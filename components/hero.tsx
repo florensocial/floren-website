@@ -68,7 +68,8 @@ export function Hero({ t }: HeroProps) {
   return (
     <section 
       id="home" 
-      className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#FAF8F6] px-6 pt-24 pb-16 md:pt-0 md:pb-0"
+      // pt-32 та md:pt-40 опускають весь контент нижче фіксованого меню
+      className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#FAF8F6] px-6 pt-32 pb-16 md:pt-40 md:pb-10"
     >
       {/* 1. Deep Background Layer (Animated Blobs) */}
       <motion.div style={isDesktop ? { x: bgX, y: bgY } : {}} className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
