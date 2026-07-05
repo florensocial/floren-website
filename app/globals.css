@@ -50,17 +50,31 @@ body {
 
 .luxury-card {
   border: 1px solid rgba(232, 226, 220, 0.94);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(250, 248, 246, 0.9)),
+  background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(250, 248, 246, 0.9)
+    ),
     #ffffff;
   box-shadow: 0 28px 90px rgba(72, 7, 19, 0.1);
 }
 
 .burgundy-orb {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(201, 164, 90, 0.4), transparent 28%),
-    radial-gradient(circle at 70% 70%, rgba(108, 11, 28, 0.32), transparent 36%),
-    linear-gradient(135deg, rgba(108, 11, 28, 0.9), rgba(72, 7, 19, 0.82));
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(201, 164, 90, 0.4),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(108, 11, 28, 0.32),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(108, 11, 28, 0.9),
+      rgba(72, 7, 19, 0.82)
+    );
 }
 
 .reveal-up {
@@ -95,7 +109,12 @@ body {
   width: 38%;
   height: 320%;
   transform: rotate(25deg);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
   transition: left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -108,7 +127,6 @@ body {
     opacity: 0;
     transform: translate3d(0, 28px, 0) scale(0.985);
   }
-
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
@@ -121,7 +139,6 @@ body {
     transform: translate3d(0, 16px, 0);
     filter: blur(6px);
   }
-
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -130,34 +147,28 @@ body {
 }
 
 @keyframes float-slow {
-  0%,
-  100% {
+  0%, 100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
-
   50% {
     transform: translate3d(0, -22px, 0) rotate(3deg);
   }
 }
 
 @keyframes float-medium {
-  0%,
-  100% {
+  0%, 100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
-
   50% {
     transform: translate3d(0, 16px, 0) rotate(-4deg);
   }
 }
 
 @keyframes pulse-glow {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 0.34;
     transform: scale(1);
   }
-
   50% {
     opacity: 0.55;
     transform: scale(1.04);

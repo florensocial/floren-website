@@ -1,45 +1,43 @@
+import { NextResponse } from "next/server";
+
+// Типізація та допоміжні функції (припускаємо, що вони визначені вище або імпортовані)
 type Payload = {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
   package?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
+  company?: string;
 };
 
-const required: (keyof Payload)[] = ["name", "email", "phone"];
+const required: (keyof Payload)[] = ["name", "email", "phone", "message"];
 
 function validEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function notificationText(data: Payload) {
-  return [
-    "New Floren enquiry",
-    data.package ? `Package: ${data.package}` : undefined,
-    `Name: ${data.name}`,
-    `Email: ${data.email}`,
-    `Phone: ${data.phone}`,
-    data.message ? `Message: ${data.message}` : undefined,
-  ]
-    .filter(Boolean)
-    .join("\n");
-}
-
+// Приклад функції відправки (має бути реалізована згідно з вашим API)
 async function sendTelegram(text: string) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-
-  if (!token || !chatId) return { skipped: true };
-
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+  const res = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, text }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      chat_id: process.env.TELEGRAM_CHAT_ID,
+      text,
+    }),
   });
 
-  if (!res.ok) throw new Error("Telegram notification failed");
+  if (!res.ok) {
+    throw new Error("Telegram notification failed");
+  }
 
   return { skipped: false };
+}
+
+function notificationText(data: Payload) {
+  return `Neue Anfrage:\n\nName: ${data.name}\nE-Mail: ${data.email}\nTelefon: ${data.phone}\nPaket: ${data.package || "Keines"}\n\nNachricht: ${data.message}`;
 }
 
 export async function POST(request: Request) {
@@ -48,18 +46,27 @@ export async function POST(request: Request) {
 
     for (const key of required) {
       if (!data[key] || String(data[key]).trim().length < 2) {
-        return Response.json({ error: `Invalid ${key}` }, { status: 400 });
+        return NextResponse.json(
+          { error: `Invalid ${key}` },
+          { status: 400 }
+        );
       }
     }
 
     if (!validEmail(String(data.email))) {
-      return Response.json({ error: "Invalid email" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid email" },
+        { status: 400 }
+      );
     }
 
     await sendTelegram(notificationText(data));
 
-    return Response.json({ ok: true });
+    return NextResponse.json({ ok: true });
   } catch {
-    return Response.json({ error: "Unable to send enquiry" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Unable to send enquiry" },
+      { status: 500 }
+    );
   }
 }
