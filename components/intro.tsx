@@ -3,6 +3,10 @@
 import { motion } from "framer-motion";
 
 export default function Intro({ t }: { t?: any }) {
+  // Автоматичне визначення мови (якщо в навігації 'Startseite' або 'Home')
+  // Це дозволяє перекладати нові 4 картки без втручання у ваші конфіги
+  const isDe = t?.nav?.home?.toLowerCase() === "startseite" || t?.hero?.cta?.toLowerCase().includes("kontakt") || false;
+
   // Scroll animation variants
   const staggerContainer = {
     hidden: { opacity: 0 },
@@ -17,10 +21,13 @@ export default function Intro({ t }: { t?: any }) {
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 60, damping: 20 } },
   };
 
+  // Локалізовані нові картки
   const services = [
     {
-      title: "Content Strategy",
-      desc: "Planning content that supports business goals and keeps communication consistent.",
+      title: isDe ? "Content-Strategie" : "Content Strategy",
+      desc: isDe 
+        ? "Planung von Inhalten, die Geschäftsziele unterstützen und die Kommunikation konsistent halten." 
+        : "Planning content that supports business goals and keeps communication consistent.",
       accent: (
         <motion.div
           animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
@@ -30,8 +37,10 @@ export default function Intro({ t }: { t?: any }) {
       ),
     },
     {
-      title: "Short-form Video",
-      desc: "Reels and TikToks designed to capture attention and increase engagement.",
+      title: isDe ? "Kurzvideos" : "Short-form Video",
+      desc: isDe
+        ? "Reels und TikToks, die Aufmerksamkeit erregen und das Engagement steigern."
+        : "Reels and TikToks designed to capture attention and increase engagement.",
       accent: (
         <motion.div
           animate={{ rotate: [0, 90, 180, 270, 360] }}
@@ -41,8 +50,10 @@ export default function Intro({ t }: { t?: any }) {
       ),
     },
     {
-      title: "Brand Identity",
-      desc: "Building a visual style and online presence that people instantly recognize.",
+      title: isDe ? "Markenidentität" : "Brand Identity",
+      desc: isDe
+        ? "Aufbau eines visuellen Stils und einer Online-Präsenz, die man sofort wiedererkennt."
+        : "Building a visual style and online presence that people instantly recognize.",
       accent: (
         <div className="relative flex h-4 w-4 items-center justify-center">
           <motion.div
@@ -59,8 +70,10 @@ export default function Intro({ t }: { t?: any }) {
       ),
     },
     {
-      title: "Growth & Analytics",
-      desc: "Monitoring performance and continuously improving results through data.",
+      title: isDe ? "Wachstum & Analytik" : "Growth & Analytics",
+      desc: isDe
+        ? "Überwachung der Performance und kontinuierliche Verbesserung der Ergebnisse durch Daten."
+        : "Monitoring performance and continuously improving results through data.",
       accent: (
         <div className="flex h-3 w-3 items-end gap-[2px]">
           <motion.div animate={{ height: ["40%", "100%", "40%"] }} transition={{ duration: 2, repeat: Infinity }} className="w-1 rounded-t-sm bg-[#6C0B1C]/40" />
@@ -79,7 +92,7 @@ export default function Intro({ t }: { t?: any }) {
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         
-        {/* Left Side: Abstract Digital Composition (Hidden on smaller screens for cleaner UX) */}
+        {/* Left Side: Abstract Digital Composition */}
         <div className="relative hidden h-[550px] w-full pointer-events-none lg:block">
           {/* Main floating glass card */}
           <motion.div
@@ -126,32 +139,33 @@ export default function Intro({ t }: { t?: any }) {
           viewport={{ once: true, margin: "-100px" }}
           className="relative z-20"
         >
-          <motion.div variants={fadeUp} className="mb-8 inline-flex items-center gap-3 rounded-full border border-[#6C0B1C]/15 bg-white/60 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#6C0B1C] shadow-sm backdrop-blur-md">
-            {/* Animated Sparkle Icon instead of a boring dot */}
-            <motion.svg
-              animate={{ rotate: 360 }}
-              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-              viewBox="0 0 24 24"
-              className="h-3.5 w-3.5 fill-[#6C0B1C]"
-            >
-              <path d="M12 0C12 0 12 9 22 12C12 15 12 24 12 24C12 24 12 15 2 12C12 9 12 0 12 0Z" />
-            </motion.svg>
-            What We Do
+          {/* Eyebrow / Label */}
+          <motion.div variants={fadeUp} className="mb-6 inline-flex items-center gap-3 rounded-full border border-[#6C0B1C]/15 bg-white/60 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#6C0B1C] shadow-sm backdrop-blur-md">
+            
+            {/* Акуратна пульсуюча крапка замість зірочки */}
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6C0B1C] opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#6C0B1C]"></span>
+            </span>
+
+            {/* Підтягуємо переклад */}
+            {t?.intro?.eyebrow || (isDe ? "Was wir tun" : "What We Do")}
           </motion.div>
 
+          {/* Title - Повернуто ваші оригінальні розміри (text-5xl md:text-7xl) */}
           <motion.h2 
             variants={fadeUp} 
-            className="max-w-xl font-serif text-4xl font-medium leading-[1.15] tracking-[-0.02em] text-[#1B1B1B] sm:text-5xl md:text-[3.5rem] md:leading-[1.1]"
+            className="font-serif text-5xl font-semibold leading-[1.04] tracking-[-0.035em] text-[#1B1B1B] md:text-7xl"
           >
-            We create content people actually remember.
+            {t?.intro?.title || (isDe ? "Wir erstellen Inhalte, an die man sich erinnert." : "We create content people actually remember.")}
           </motion.h2>
 
+          {/* Text - Повернуто ваші оригінальні розміри (text-lg leading-9) */}
           <motion.p 
             variants={fadeUp} 
-            // Збільшено розмір тексту (text-lg md:text-xl) та інтервал (leading-relaxed md:leading-loose)
-            className="mt-6 max-w-xl text-lg leading-relaxed text-[#5E5E5E] md:text-xl md:leading-loose"
+            className="mt-7 max-w-2xl text-lg leading-9 text-[#5E5E5E]"
           >
-            Floren is a modern social media agency helping brands grow online. We specialize in content creation, short-form videos, social media strategy, branding, and audience growth. By blending creative storytelling with data-driven insights, we build digital identities that stand out and drive real business results.
+            {t?.intro?.text || (isDe ? "Floren ist eine moderne Social-Media-Agentur, die Marken beim Online-Wachstum unterstützt. Wir spezialisieren uns auf Content-Erstellung, Kurzvideos, Strategie und Markenaufbau." : "Floren is a modern social media agency helping brands grow online. We specialize in content creation, short-form videos, social media strategy, branding, and audience growth.")}
           </motion.p>
 
           {/* Service Cards Grid */}
