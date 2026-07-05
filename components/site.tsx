@@ -156,35 +156,52 @@ export function Site({
   return (
     <div className="min-h-screen overflow-hidden bg-[#FAF8F6] text-[#1B1B1B]">
       <header className="fixed inset-x-0 top-0 z-50 px-4 py-4">
-        <nav className="glass-panel mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-3 md:px-5" aria-label="Main">
-          <Link href="/#home" className="relative h-11 w-40 shrink-0" onClick={(event) => handleNavClick(event, "home")} aria-current={active === "home" ? "page" : undefined}>
-            <Image src="/logos/floren_full_color_withoutbg.png" alt="Floren" fill className="object-contain" priority sizes="144px" />
+        <nav
+          className="glass-panel mx-auto grid max-w-7xl grid-cols-[190px_1fr_190px] items-center rounded-full px-5 py-3"
+          aria-label="Main"
+        >
+          <Link
+            href="/#home"
+            className="relative h-12 w-44 justify-self-start"
+            onClick={(event) => handleNavClick(event, "home")}
+            aria-current={active === "home" ? "page" : undefined}
+          >
+            <Image
+              src="/logos/floren_full_color_withoutbg.png"
+              alt="Floren"
+              fill
+              className="object-contain"
+              priority
+              sizes="176px"
+            />
           </Link>
-
-          <div className="hidden items-center gap-1 md:flex">
+        
+          <div className="hidden items-center justify-center gap-2 md:flex">
             {nav.map(([id, label]) => (
               <Link
                 key={id}
                 href={navHref(id)}
                 onClick={(event) => handleNavClick(event, id)}
                 aria-current={active === id ? "page" : undefined}
-                className={`rounded-full px-4 py-2 text-sm transition ${
-                  active === id ? "bg-[#6C0B1C] text-white" : "text-[#5E5E5E] hover:bg-white hover:text-[#1B1B1B]"
+                className={`rounded-full px-5 py-2.5 text-sm font-medium transition ${
+                  active === id
+                    ? "bg-[#6C0B1C] text-white"
+                    : "text-[#5E5E5E] hover:bg-white hover:text-[#1B1B1B]"
                 }`}
               >
                 {label}
               </Link>
             ))}
           </div>
-
-          <div className="hidden md:block">
+        
+          <div className="hidden justify-self-end md:flex">
             <LanguageSwitch lang={lang} setLang={setLang} />
           </div>
-
+        
           <button
             type="button"
             onClick={() => setMenuOpen((value) => !value)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E8E2DC] bg-white text-[#480713] md:hidden"
+            className="justify-self-end inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#E8E2DC] bg-white text-[#480713] md:hidden"
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
           >
