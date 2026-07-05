@@ -70,38 +70,17 @@ export function Hero({ t }: HeroProps) {
       id="home" 
       className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#FAF8F6] px-6 pt-32 pb-16 md:pt-40 md:pb-10"
     >
-      {/* 1. Deep Background Layer (Animated Blobs) */}
+      {/* 1. Deep Background Layer (Animated Light) */}
       <motion.div style={isDesktop ? { x: bgX, y: bgY } : {}} className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
         
-        {/* Blob 1 - Зроблено більшим, піднято вище (-mt-[15vh]) і зроблено менш помітним (opacity знижено) */}
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.12, 0.22, 0.12],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -mt-[15vh] h-[60vh] w-[85vw] md:h-[60vh] md:w-[60vw] rounded-full bg-[#6C0B1C] blur-[80px] md:blur-[130px] will-change-transform"
-        />
-        
-        {/* Blob 2 - Трохи приглушено, щоб не сперечатися з головною плямою */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [0, 50, 0],
-            opacity: [0.15, 0.25, 0.15],
-          }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute ml-[30vw] mt-[20vh] hidden md:block h-[35vh] w-[35vw] rounded-full bg-[#480713] blur-[100px] will-change-transform"
-        />
-        
-        {/* Blob 3 - White glow */}
+        {/* Soft White Glow - залишаємо лише чисте світло для легкого об'єму */}
         <motion.div
           animate={{
             y: [0, -30, 0],
-            opacity: [0.4, 0.6, 0.4],
+            opacity: [0.5, 0.7, 0.5],
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -ml-[10vw] -mt-[20vh] h-[40vh] w-[60vw] md:h-[50vh] md:w-[50vw] rounded-full bg-white blur-[60px] md:blur-[90px] will-change-transform"
+          className="absolute -mt-[10vh] h-[40vh] w-[60vw] md:h-[60vh] md:w-[60vw] rounded-full bg-white blur-[60px] md:blur-[100px] will-change-transform"
         />
       </motion.div>
 
@@ -112,19 +91,19 @@ export function Hero({ t }: HeroProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="absolute left-[5%] top-[15%] hidden h-[300px] w-[220px] -rotate-6 rounded-[2rem] border border-white/40 bg-white/10 shadow-[0_30px_80px_rgba(108,11,28,0.05)] backdrop-blur-md md:block lg:left-[10%]"
+            className="absolute left-[5%] top-[15%] hidden h-[300px] w-[220px] -rotate-6 rounded-[2rem] border border-white/40 bg-white/10 shadow-[0_30px_80px_rgba(108,11,28,0.03)] backdrop-blur-md md:block lg:left-[10%]"
           />
           
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-            className="absolute -right-20 top-[10%] h-[400px] w-[400px] rounded-full border-[1px] border-[#6C0B1C]/20 border-dashed hidden md:block will-change-transform"
+            className="absolute -right-20 top-[10%] h-[400px] w-[400px] rounded-full border-[1px] border-[#6C0B1C]/15 border-dashed hidden md:block will-change-transform"
           />
 
           <motion.div
              animate={{ y: [0, 15, 0] }}
              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-             className="absolute bottom-[20%] left-[20%] hidden h-12 w-12 rounded-full border border-[#6C0B1C]/25 bg-white/40 backdrop-blur-sm md:block will-change-transform"
+             className="absolute bottom-[20%] left-[20%] hidden h-12 w-12 rounded-full border border-[#6C0B1C]/20 bg-white/50 backdrop-blur-sm md:block will-change-transform"
           />
         </motion.div>
       </div>
