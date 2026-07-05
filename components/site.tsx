@@ -8,7 +8,7 @@ import { dictionary, packages, type Lang } from "@/lib/content";
 import { Icon } from "./icons";
 import { Hero } from "./hero";
 import Intro from "./intro";
-import Services from "./services"; // <-- Підключаємо новий файл тарифів
+import Services from "./services";
 
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
@@ -25,7 +25,7 @@ function PrimaryButton({
   const classes =
     variant === "dark"
       ? "bg-[#6C0B1C] text-white shadow-[0_18px_45px_rgba(108,11,28,.24)] hover:bg-[#5A0917] hover:shadow-[0_24px_60px_rgba(108,11,28,.3)]"
-      : "border border-[#E8E2DC] bg-white/82 text-[#480713] hover:border-[#6C0B1C]/30 hover:bg-white"; // Прибрав золото з ховеру
+      : "border border-[#E8E2DC] bg-white/82 text-[#480713] hover:border-[#6C0B1C]/30 hover:bg-white"; 
 
   return (
     <Link
@@ -245,7 +245,6 @@ export function Site({
           <>
             <Hero t={t} />
             <Intro t={t} />
-            {/* Викликаємо новий ізольований компонент */}
             <Services t={t} />
             <Contact lang={lang} />
           </>
@@ -282,7 +281,6 @@ export function Contact({ lang, selectedPackage = "", standalone = false }: { la
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(201,164,90,.05),transparent_26%),radial-gradient(circle_at_85%_45%,rgba(108,11,28,.08),transparent_30%)]" />
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div className="reveal-up lg:sticky lg:top-32">
-          {/* Золото прибрано */}
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#6C0B1C]">{t.eyebrow}</p>
           <h2 className="mt-5 font-serif text-5xl font-semibold leading-[1.04] tracking-[-0.035em] md:text-7xl">{t.title}</h2>
           <p className="mt-7 max-w-xl text-lg leading-9 text-[#5E5E5E]">{t.text}</p>
@@ -347,15 +345,23 @@ function Field({ label, name, type = "text", required = false, className = "" }:
   );
 }
 
+// ОНОВЛЕНИЙ ФУТЕР
 function Footer({ t }: { t: Copy }) {
   return (
-    <footer className="border-t border-[#E8E2DC] bg-white px-6 py-14">
+    <footer className="bg-[#480713] px-6 py-20 md:py-24">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
-        <Image src="/logos/floren_full_color_withoutbg.png" alt="Floren" width={170} height={80} />
-        <div className="flex flex-wrap gap-5 text-sm text-[#5E5E5E]">
+        {/* Додано brightness-0 invert, щоб логотип став білим на темному фоні */}
+        <Image 
+          src="/logos/white_floren_withoutbg.png" 
+          alt="Floren" 
+          width={170} 
+          height={80} 
+          className="brightness-0 invert"
+        />
+        <div className="flex flex-wrap gap-5 text-sm text-white/70">
           <span>{t.footer.legal}</span>
-          <Link href="/privacy" className="hover:text-[#6C0B1C]">{t.footer.privacy}</Link>
-          <Link href="/imprint" className="hover:text-[#6C0B1C]">{t.footer.imprint}</Link>
+          <Link href="/privacy" className="transition-colors hover:text-white">{t.footer.privacy}</Link>
+          <Link href="/imprint" className="transition-colors hover:text-white">{t.footer.imprint}</Link>
         </div>
       </div>
     </footer>
