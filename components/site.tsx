@@ -350,21 +350,21 @@ function Footer({ t }: { t: Copy }) {
   const isDe = t.contact.eyebrow === "Kontakt";
 
   return (
-    <footer className="border-t border-[#E8E2DC] bg-white px-6 py-20 md:py-24">
+    <footer className="bg-[#480713] px-6 py-16 md:py-20">
       <div className="mx-auto max-w-7xl">
         
-        {/* Верхня частина футера: Логотип, Слоган, Навігація та Соцмережі */}
+        {/* Верхня частина футера */}
         <div className="flex flex-col justify-between gap-12 md:flex-row md:items-start">
           
           {/* Логотип та Слоган */}
           <div className="max-w-sm">
             <Image 
-              src="/logos/floren_full_color_withoutbg.png" 
+              src="/logos/white_floren_withoutbg.png" 
               alt="Floren" 
               width={170} 
               height={80} 
             />
-            <p className="mt-6 text-base leading-relaxed text-[#5E5E5E]">
+            <p className="mt-6 text-base leading-relaxed text-white/70">
               {isDe 
                 ? "Wir kreieren digitale Identitäten, die nicht nur auffallen, sondern im Gedächtnis bleiben." 
                 : "We create digital identities that don't just stand out, but leave a lasting impression."}
@@ -376,32 +376,32 @@ function Footer({ t }: { t: Copy }) {
             
             {/* Меню сайту */}
             <div className="flex flex-col gap-4">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#1B1B1B]">Menu</p>
-              <Link href="/#home" className="text-sm font-medium text-[#5E5E5E] transition-colors hover:text-[#6C0B1C]">{t.nav.home}</Link>
-              <Link href="/#services" className="text-sm font-medium text-[#5E5E5E] transition-colors hover:text-[#6C0B1C]">{t.nav.services}</Link>
-              <Link href="/#contact" className="text-sm font-medium text-[#5E5E5E] transition-colors hover:text-[#6C0B1C]">{t.nav.contact}</Link>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-white">Menu</p>
+              <Link href="/#home" className="text-sm font-medium text-white/70 transition-colors hover:text-white">{t.nav.home}</Link>
+              <Link href="/#services" className="text-sm font-medium text-white/70 transition-colors hover:text-white">{t.nav.services}</Link>
+              <Link href="/#contact" className="text-sm font-medium text-white/70 transition-colors hover:text-white">{t.nav.contact}</Link>
             </div>
             
             {/* Соціальні мережі */}
             <div className="flex flex-col gap-4">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-[#1B1B1B]">Socials</p>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#5E5E5E] transition-colors hover:text-[#6C0B1C]">Instagram</a>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#5E5E5E] transition-colors hover:text-[#6C0B1C]">TikTok</a>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.15em] text-white">Socials</p>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-white/70 transition-colors hover:text-white">Instagram</a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-white/70 transition-colors hover:text-white">TikTok</a>
             </div>
 
           </div>
         </div>
 
         {/* Нижня частина: Копірайт та Юридична інформація */}
-        <div className="mt-16 flex flex-col gap-6 border-t border-[#E8E2DC] pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-[#5E5E5E]">
+        <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
+          <p className="text-sm text-white/60">
             © {new Date().getFullYear()} Floren. {isDe ? "Alle Rechte vorbehalten." : "All rights reserved."}
           </p>
           
-          <div className="flex flex-wrap gap-5 text-sm text-[#5E5E5E]">
+          <div className="flex flex-wrap gap-5 text-sm text-white/60">
             <span>{t.footer.legal}</span>
-            <Link href="/privacy" className="transition-colors hover:text-[#6C0B1C]">{t.footer.privacy}</Link>
-            <Link href="/imprint" className="transition-colors hover:text-[#6C0B1C]">{t.footer.imprint}</Link>
+            <Link href="/privacy" className="transition-colors hover:text-white">{t.footer.privacy}</Link>
+            <Link href="/imprint" className="transition-colors hover:text-white">{t.footer.imprint}</Link>
           </div>
         </div>
 
