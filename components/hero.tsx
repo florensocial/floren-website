@@ -72,26 +72,29 @@ export function Hero({ t }: HeroProps) {
     >
       {/* 1. Deep Background Layer (Animated Blobs) */}
       <motion.div style={isDesktop ? { x: bgX, y: bgY } : {}} className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
-        {/* Blob 1 - Збільшено opacity з [0.15, 0.25, 0.15] на [0.3, 0.45, 0.3] */}
+        
+        {/* Blob 1 - Зроблено більшим, піднято вище (-mt-[15vh]) і зроблено менш помітним (opacity знижено) */}
         <motion.div
           animate={{
             scale: [1, 1.1, 1],
-            opacity: [0.3, 0.45, 0.3],
+            opacity: [0.12, 0.22, 0.12],
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute h-[50vh] w-[70vw] md:h-[40vh] md:w-[40vw] rounded-full bg-[#6C0B1C] blur-[70px] md:blur-[120px] will-change-transform"
+          className="absolute -mt-[15vh] h-[60vh] w-[85vw] md:h-[60vh] md:w-[60vw] rounded-full bg-[#6C0B1C] blur-[80px] md:blur-[130px] will-change-transform"
         />
-        {/* Blob 2 - Збільшено opacity з [0.1, 0.2, 0.1] на [0.2, 0.35, 0.2] */}
+        
+        {/* Blob 2 - Трохи приглушено, щоб не сперечатися з головною плямою */}
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
-            opacity: [0.2, 0.35, 0.2],
+            opacity: [0.15, 0.25, 0.15],
           }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
           className="absolute ml-[30vw] mt-[20vh] hidden md:block h-[35vh] w-[35vw] rounded-full bg-[#480713] blur-[100px] will-change-transform"
         />
-        {/* Blob 3 - Збільшено opacity з [0.3, 0.5, 0.3] на [0.4, 0.6, 0.4] */}
+        
+        {/* Blob 3 - White glow */}
         <motion.div
           animate={{
             y: [0, -30, 0],
