@@ -107,7 +107,7 @@ export const dictionary = {
     },
     contact: {
       eyebrow: "Kontakt",
-      title: "Bereit für einen Auftritt, der Premium ausstrahlt?",
+      title: "Bereit, Ihre Marke auf das nächste Level zu bringen?",
       text: "Teilen Sie uns kurz mit, wo Ihre Marke heute steht. Wir melden uns persönlich mit einer klaren Empfehlung für den nächsten Schritt.",
       package: "Ausgewähltes Paket",
       name: "Name",
@@ -148,7 +148,7 @@ export const dictionary = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Ready for a presence that feels premium?",
+      title: "Ready to take your brand to the next level?",
       text: "Tell us briefly where your brand stands today. We will reply personally with a clear recommendation for the next step.",
       package: "Selected package",
       name: "Name",
