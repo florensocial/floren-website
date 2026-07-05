@@ -5,7 +5,68 @@ import Link from "next/link";
 import { packages, type Package } from "@/lib/content";
 import { Icon } from "./icons";
 
-// Локальний компонент кнопки, адаптований під новий дизайн
+// Переклади для тарифів (щоб не чіпати ваш основний файл content.ts)
+const enTranslations: Record<string, Partial<Package>> = {
+  "2-week-trial": {
+    badge: "FREE TRIAL",
+    name: "2-Week Trial",
+    price: "€0",
+    description: "Get to know our way of working without any risk and see our quality for yourself.",
+    features: [
+      "Profile & Bio Optimization",
+      "Content Plan for 2 Weeks",
+      "2 Sample Reels & 2 Sample Posts",
+      "Visual Moodboard",
+      "Performance Review at the End",
+    ],
+    cta: "Request now",
+  },
+  "starter": {
+    name: "Starter",
+    price: "€490 / month",
+    description: "The perfect entry level for local businesses and founders.",
+    features: [
+      "Content Plan & Calendar",
+      "4 Reels & 4 Posts per month",
+      "Up to 12 Stories",
+      "Basic Video Editing & Subtitles",
+      "Ongoing Support via Messenger",
+    ],
+    cta: "Choose package",
+  },
+  "growth": {
+    badge: "MOST POPULAR",
+    name: "Growth",
+    price: "€790 / month",
+    description: "For brands that want to seriously scale their online presence.",
+    features: [
+      "Content Plan (PDF) & Strategy",
+      "8 Reels & 6 Posts per month",
+      "Up to 20 Stories per month",
+      "Hashtag & Keyword Optimization",
+      "3 Story Highlights",
+      "Ongoing Support & Consulting",
+    ],
+    cta: "Get started",
+  },
+  "premium": {
+    name: "Premium",
+    price: "€1190 / month",
+    description: "The all-inclusive package for maximum visibility.",
+    features: [
+      "Complex Strategy & Competitor Analysis",
+      "12 Reels & 8 Posts per month",
+      "Up to 30 Stories per month",
+      "Comprehensive Monthly Reporting & Analysis",
+      "Custom Feed Design & Branding",
+      "Up to 5 Story Highlights",
+      "Priority Support & Strategy Calls",
+    ],
+    cta: "Choose package",
+  },
+};
+
+// Локальний компонент кнопки
 function ServiceButton({ href, children, variant = "glass" }: { href: string; children: React.ReactNode; variant?: "dark" | "glass" }) {
   const classes =
     variant === "dark"
@@ -24,8 +85,20 @@ function ServiceButton({ href, children, variant = "glass" }: { href: string; ch
 }
 
 export default function Services({ t }: { t: any }) {
-  const featured = packages.find((item) => item.featured);
-  const standard = packages.filter((item) => !item.featured);
+  // Визначаємо мову
+  const rawT = JSON.stringify(t || {});
+  const isDe = rawT.includes("Startseite") || rawT.includes("Kontakt");
+
+  // Застосовуємо переклад до пакетів
+  const getLocalizedPackage = (pkg: Package) => {
+    if (isDe) return pkg;
+    const en = enTranslations[pkg.id];
+    return en ? { ...pkg, ...en } : pkg;
+  };
+
+  const localizedPackages = packages.map(getLocalizedPackage);
+  const featured = localizedPackages.find((item) => item.featured);
+  const standard = localizedPackages.filter((item) => !item.featured);
 
   const staggerContainer = {
     hidden: { opacity: 0 },
@@ -42,7 +115,7 @@ export default function Services({ t }: { t: any }) {
 
   return (
     <section id="services" className="relative overflow-hidden bg-[#FAF8F6] px-6 py-24 md:py-32">
-      {/* М'які фонові елементи (Тільки бордові відтінки, без золота) */}
+      {/* М'які фонові елементи */}
       <div className="absolute left-1/2 top-20 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#6C0B1C]/5 blur-[120px] pointer-events-none" />
       <div className="absolute -right-32 bottom-32 h-80 w-80 rounded-full border border-[#6C0B1C]/10 pointer-events-none" />
 
@@ -66,7 +139,6 @@ export default function Services({ t }: { t: any }) {
             className="mt-4 font-serif text-4xl font-medium tracking-[-0.02em] md:text-6xl"
           >
             {t.services.titleStart}{" "}
-            {/* Анімований переливаючийся текст в фірмових кольорах */}
             <motion.span
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
@@ -88,7 +160,7 @@ export default function Services({ t }: { t: any }) {
           </motion.p>
         </div>
 
-        {/* Безкоштовний тариф (Білий, чистий, зверху) */}
+        {/* Безкоштовний тариф (Testpaket) - Залишився без змін */}
         {featured ? (
           <motion.article 
             initial={{ opacity: 0, y: 30 }}
@@ -113,7 +185,6 @@ export default function Services({ t }: { t: any }) {
                 <ul className="mb-8 space-y-3">
                   {featured.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm text-[#5E5E5E]">
-                      {/* МІНІАТЮРНА ІКОНКА */}
                       <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#6C0B1C]/10 text-[#6C0B1C]">
                         <Icon name="check" className="h-2 w-2" />
                       </span>
@@ -129,32 +200,29 @@ export default function Services({ t }: { t: any }) {
           </motion.article>
         ) : null}
 
-        {/* Стандартні тарифи */}
+        {/* Стандартні тарифи - Однакова висота (items-stretch замість items-center) */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="mt-12 grid gap-6 md:grid-cols-3 md:items-center"
+          className="mt-12 grid gap-6 md:grid-cols-3 items-stretch"
         >
           {standard.map((item) => (
             <motion.article
               key={item.id}
               variants={fadeUp}
-              className={`relative flex min-h-[580px] flex-col rounded-[2rem] border p-7 transition-all duration-500 hover:-translate-y-2 md:p-8 ${
+              // Додано h-full для однакової висоти і прибрано scale-105 для однакової ширини
+              className={`relative flex h-full flex-col rounded-[2rem] border p-7 transition-all duration-500 hover:-translate-y-2 md:p-8 ${
                 item.popular
-                  ? "z-10 scale-100 border-[#6C0B1C]/30 bg-white/90 shadow-[0_20px_60px_rgba(108,11,28,0.12)] md:scale-105"
+                  ? "z-10 border-[#6C0B1C]/20 bg-[#6C0B1C]/5 shadow-[0_20px_60px_rgba(108,11,28,0.1)] backdrop-blur-md" // М'який бордовий фон
                   : "border-[#6C0B1C]/10 bg-white/40 shadow-sm backdrop-blur-md hover:bg-white/60 hover:shadow-[0_15px_40px_rgba(108,11,28,0.05)]"
               }`}
             >
               {item.popular && (
-                <>
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#6C0B1C] px-4 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white shadow-md">
-                    {item.badge}
-                  </div>
-                  {/* Легке внутрішнє світіння для популярного тарифу */}
-                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-[#6C0B1C]/5 to-transparent pointer-events-none" />
-                </>
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#6C0B1C] px-4 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white shadow-md">
+                  {item.badge}
+                </div>
               )}
 
               <div className="relative z-10">
@@ -181,7 +249,6 @@ export default function Services({ t }: { t: any }) {
               <ul className="relative z-10 mb-8 flex-1 space-y-3">
                 {item.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-[#5E5E5E]">
-                    {/* МІНІАТЮРНА ІКОНКА */}
                     <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#6C0B1C]/10 text-[#6C0B1C]">
                       <Icon name="check" className="h-2 w-2" />
                     </span>
