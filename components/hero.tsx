@@ -73,7 +73,7 @@ export function Hero({ t }: HeroProps) {
       {/* 1. Deep Background Layer (Animated Light) */}
       <motion.div style={isDesktop ? { x: bgX, y: bgY } : {}} className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
         
-        {/* Soft White Glow - залишаємо лише чисте світло для легкого об'єму */}
+        {/* Soft White Glow */}
         <motion.div
           animate={{
             y: [0, -30, 0],
@@ -87,24 +87,29 @@ export function Hero({ t }: HeroProps) {
       {/* 2. Abstract Digital Composition Layer */}
       <div className="absolute inset-0 z-10 mx-auto max-w-7xl pointer-events-none">
         <motion.div style={isDesktop ? { x: midX, y: midY } : {}} className="absolute inset-0">
+          
+          {/* Glass Card - зроблена виразнішою (bg-white/20, border-white/70, сильніша тінь) */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="absolute left-[5%] top-[15%] hidden h-[300px] w-[220px] -rotate-6 rounded-[2rem] border border-white/40 bg-white/10 shadow-[0_30px_80px_rgba(108,11,28,0.03)] backdrop-blur-md md:block lg:left-[10%]"
+            className="absolute left-[5%] top-[15%] hidden h-[300px] w-[220px] -rotate-6 rounded-[2rem] border border-white/70 bg-white/20 shadow-[0_30px_80px_rgba(108,11,28,0.08)] backdrop-blur-md md:block lg:left-[10%]"
           />
           
+          {/* Dashed Circle - товстіша лінія (border-2) та яскравіший колір (border-[#6C0B1C]/30) */}
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-            className="absolute -right-20 top-[10%] h-[400px] w-[400px] rounded-full border-[1px] border-[#6C0B1C]/15 border-dashed hidden md:block will-change-transform"
+            className="absolute -right-20 top-[10%] h-[400px] w-[400px] rounded-full border-2 border-[#6C0B1C]/30 border-dashed hidden md:block will-change-transform"
           />
 
+          {/* Small Circle - щільніший білий фон та яскравіша рамка */}
           <motion.div
              animate={{ y: [0, 15, 0] }}
              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-             className="absolute bottom-[20%] left-[20%] hidden h-12 w-12 rounded-full border border-[#6C0B1C]/20 bg-white/50 backdrop-blur-sm md:block will-change-transform"
+             className="absolute bottom-[20%] left-[20%] hidden h-12 w-12 rounded-full border border-[#6C0B1C]/40 bg-white/80 backdrop-blur-sm shadow-sm md:block will-change-transform"
           />
+          
         </motion.div>
       </div>
 
