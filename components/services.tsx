@@ -32,7 +32,7 @@ const enTranslations: Record<string, Partial<Package>> = {
       "Basic Video Editing & Subtitles",
       "Ongoing Support via Messenger",
     ],
-    cta: "Choose package",
+    cta: "Request now",
   },
   "growth": {
     badge: "MOST POPULAR",
@@ -47,7 +47,7 @@ const enTranslations: Record<string, Partial<Package>> = {
       "3 Story Highlights",
       "Ongoing Support & Consulting",
     ],
-    cta: "Get started",
+    cta: "Request now",
   },
   "premium": {
     name: "Premium",
@@ -62,7 +62,7 @@ const enTranslations: Record<string, Partial<Package>> = {
       "Up to 5 Story Highlights",
       "Priority Support & Strategy Calls",
     ],
-    cta: "Choose package",
+    cta: "Request now",
   },
 };
 
