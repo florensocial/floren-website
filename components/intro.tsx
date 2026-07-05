@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 
 export default function Intro({ t }: { t?: any }) {
-  // Автоматичне визначення мови (якщо в навігації 'Startseite' або 'Home')
-  // Це дозволяє перекладати нові 4 картки без втручання у ваші конфіги
-  const isDe = t?.nav?.home?.toLowerCase() === "startseite" || t?.hero?.cta?.toLowerCase().includes("kontakt") || false;
+  // Більш надійний спосіб визначення мови (перевіряємо чи є німецькі слова у пропсах)
+  const rawT = JSON.stringify(t || {});
+  const isDe = rawT.includes("Auftritt") || rawT.includes("Startseite") || rawT.includes("Kontakt");
 
   // Scroll animation variants
   const staggerContainer = {
@@ -21,7 +21,7 @@ export default function Intro({ t }: { t?: any }) {
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 60, damping: 20 } },
   };
 
-  // Локалізовані нові картки
+  // Локалізовані картки 1 в 1 як ви просили
   const services = [
     {
       title: isDe ? "Content-Strategie" : "Content Strategy",
@@ -86,52 +86,42 @@ export default function Intro({ t }: { t?: any }) {
 
   return (
     <section className="relative overflow-hidden bg-[#FAF8F6] px-6 py-20 md:py-32">
-      {/* Subtle Background Blobs for the section */}
+      {/* М'які фонові плями для всієї секції */}
       <div className="absolute -left-[10%] top-[20%] h-[400px] w-[400px] pointer-events-none rounded-full bg-[#6C0B1C]/5 blur-[100px]" />
       <div className="absolute -right-[10%] bottom-[10%] h-[300px] w-[300px] pointer-events-none rounded-full bg-[#480713]/5 blur-[80px]" />
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         
-        {/* Left Side: Abstract Digital Composition */}
-        <div className="relative hidden h-[550px] w-full pointer-events-none lg:block">
-          {/* Main floating glass card */}
+        {/* НОВА АНІМАЦІЯ ЗЛІВА: Елегантна бордова сфера зі скляним кільцем */}
+        <div className="relative hidden h-[500px] w-full items-center justify-center pointer-events-none lg:flex">
+          {/* Бордова сфера, що світиться і плаває */}
           <motion.div
-            animate={{ y: [-15, 15, -15], rotate: [0, 2, 0] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-[10%] top-[15%] z-20 h-[320px] w-[240px] rounded-[2rem] border border-white/60 bg-white/30 shadow-[0_20px_60px_rgba(108,11,28,0.05)] backdrop-blur-xl"
-          >
-            <div className="absolute inset-x-6 top-6 h-px bg-gradient-to-r from-transparent via-[#6C0B1C]/10 to-transparent" />
-            <div className="absolute bottom-6 left-6 h-12 w-12 rounded-full border border-[#6C0B1C]/10 bg-white/40" />
-          </motion.div>
-
-          {/* Secondary background card */}
-          <motion.div
-            animate={{ y: [15, -15, 15], rotate: [0, -3, 0] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[15%] right-[15%] z-10 h-[280px] w-[280px] rounded-[2rem] border border-[#6C0B1C]/10 bg-white/50 shadow-lg backdrop-blur-md"
+            animate={{ y: [-15, 15, -15], scale: [1, 1.05, 1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute h-56 w-56 rounded-full bg-gradient-to-tr from-[#480713] to-[#6C0B1C] shadow-[0_0_80px_rgba(108,11,28,0.5)] blur-[2px]"
           />
-
-          {/* Rotating dashed ring */}
+          
+          {/* Скляне кільце, що обертається */}
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
-            className="absolute right-[5%] top-[10%] z-0 h-[400px] w-[400px] rounded-full border-[1.5px] border-dashed border-[#6C0B1C]/15"
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="absolute h-80 w-80 rounded-full border border-white/60 bg-white/10 shadow-2xl backdrop-blur-md"
           />
 
-          {/* Small floating geometric accents */}
+          {/* Маленькі плаваючі скляні деталі */}
           <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.8, 0.4] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-[40%] top-[5%] z-30 h-6 w-6 rounded-full border border-[#6C0B1C]/20 bg-white/80 backdrop-blur-sm"
+            animate={{ y: [0, -20, 0], x: [0, 15, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute right-10 top-10 h-12 w-12 rounded-full border border-[#6C0B1C]/20 bg-white/60 backdrop-blur-md shadow-sm"
           />
           <motion.div
-            animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[25%] left-[5%] z-30 h-10 w-10 rounded-xl border border-white/80 bg-white/40 backdrop-blur-md"
+            animate={{ y: [0, 20, 0], x: [0, -15, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-10 left-10 h-16 w-16 rounded-2xl border border-white/80 bg-white/40 backdrop-blur-lg shadow-sm"
           />
         </div>
 
-        {/* Right Side: Content */}
+        {/* Права сторона: Контент */}
         <motion.div 
           variants={staggerContainer} 
           initial="hidden" 
@@ -141,34 +131,29 @@ export default function Intro({ t }: { t?: any }) {
         >
           {/* Eyebrow / Label */}
           <motion.div variants={fadeUp} className="mb-6 inline-flex items-center gap-3 rounded-full border border-[#6C0B1C]/15 bg-white/60 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#6C0B1C] shadow-sm backdrop-blur-md">
-            
-            {/* Акуратна пульсуюча крапка замість зірочки */}
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6C0B1C] opacity-75"></span>
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#6C0B1C]"></span>
             </span>
-
-            {/* Підтягуємо переклад */}
             {t?.intro?.eyebrow || (isDe ? "Was wir tun" : "What We Do")}
           </motion.div>
 
-          {/* Title - Повернуто ваші оригінальні розміри (text-5xl md:text-7xl) */}
+          {/* Головний заголовок - РОЗМІР ЗМЕНШЕНО (text-3xl -> text-5xl) */}
           <motion.h2 
             variants={fadeUp} 
-            className="font-serif text-5xl font-semibold leading-[1.04] tracking-[-0.035em] text-[#1B1B1B] md:text-7xl"
+            className="max-w-xl font-serif text-3xl font-medium leading-[1.2] tracking-[-0.02em] text-[#1B1B1B] sm:text-4xl md:text-5xl"
           >
-            {t?.intro?.title || (isDe ? "Wir erstellen Inhalte, an die man sich erinnert." : "We create content people actually remember.")}
+            {t?.intro?.title || (isDe ? "Ein digitaler Auftritt, der nicht lauter wirkt — sondern wertvoller." : "We create content people actually remember.")}
           </motion.h2>
 
-          {/* Text - Повернуто ваші оригінальні розміри (text-lg leading-9) */}
           <motion.p 
             variants={fadeUp} 
-            className="mt-7 max-w-2xl text-lg leading-9 text-[#5E5E5E]"
+            className="mt-6 max-w-xl text-lg leading-relaxed text-[#5E5E5E] md:text-xl md:leading-loose"
           >
             {t?.intro?.text || (isDe ? "Floren ist eine moderne Social-Media-Agentur, die Marken beim Online-Wachstum unterstützt. Wir spezialisieren uns auf Content-Erstellung, Kurzvideos, Strategie und Markenaufbau." : "Floren is a modern social media agency helping brands grow online. We specialize in content creation, short-form videos, social media strategy, branding, and audience growth.")}
           </motion.p>
 
-          {/* Service Cards Grid */}
+          {/* Сітка з картками послуг */}
           <motion.div variants={fadeUp} className="mt-12 grid gap-4 sm:grid-cols-2">
             {services.map((card) => (
               <div 
