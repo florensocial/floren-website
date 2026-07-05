@@ -1,0 +1,2 @@
+export const metadata = { title: 'Datenschutz' };
+export default function Privacy(){return <main className="mx-auto max-w-3xl px-6 py-28"><h1 className="font-serif text-6xl">Datenschutz / Privacy Policy</h1><p className="mt-8 text-[#5E5E5E] leading-8">Placeholder company information for Floren. This privacy policy explains that contact form data is used only to respond to enquiries and is not sold to third parties. Replace with legally reviewed Austrian company information before launch.</p></main>}

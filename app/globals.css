@@ -1,26 +1,10 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+:root { --background:#FAF8F6; --foreground:#1B1B1B; --burgundy:#6C0B1C; --dark:#480713; --hover:#5A0917; --gold:#C9A45A; --border:#E8E2DC; --muted:#5E5E5E; --secondary:#F5F1EE; }
+@theme inline { --color-background:var(--background); --color-foreground:var(--foreground); --font-sans:Inter, ui-sans-serif, system-ui, sans-serif; --font-serif:"Cormorant Garamond", Georgia, serif; }
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--background);color:var(--foreground);font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+::selection{background:#6C0B1C;color:white}.glass{background:rgba(255,255,255,.72);backdrop-filter:blur(18px);border:1px solid rgba(232,226,220,.8)}
+.luxury-shadow{box-shadow:0 24px 80px rgba(72,7,19,.12)}.gold-line{background:linear-gradient(90deg,transparent,#C9A45A,transparent)}
+.reveal{animation:reveal .7s cubic-bezier(.2,.8,.2,1) both}.float{animation:float 7s ease-in-out infinite}.shine{position:relative;overflow:hidden}.shine:after{content:"";position:absolute;inset:-100% auto auto -60%;width:40%;height:300%;transform:rotate(25deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transition:left .7s}.shine:hover:after{left:120%}
+@keyframes reveal{from{opacity:0;transform:translate3d(0,24px,0) scale(.98)}to{opacity:1;transform:translateZ(0) scale(1)}}@keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-18px,0)}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
