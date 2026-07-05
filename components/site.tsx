@@ -167,7 +167,7 @@ export function Site({
             aria-current={active === "home" ? "page" : undefined}
           >
             <Image
-              src="/logos/floren_full_color_withoutbg.png"
+              src="/logos/floren_text_only_withoutbg.png"
               alt="Floren"
               fill
               className="object-contain"
