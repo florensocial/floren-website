@@ -51,16 +51,32 @@ body {
 .luxury-card {
   border: 1px solid rgba(232, 226, 220, 0.94);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(250, 248, 246, 0.9)),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(250, 248, 246, 0.9)
+    ),
     #ffffff;
   box-shadow: 0 28px 90px rgba(72, 7, 19, 0.1);
 }
 
 .burgundy-orb {
   background:
-    radial-gradient(circle at 30% 30%, rgba(201, 164, 90, 0.4), transparent 28%),
-    radial-gradient(circle at 70% 70%, rgba(108, 11, 28, 0.32), transparent 36%),
-    linear-gradient(135deg, rgba(108, 11, 28, 0.9), rgba(72, 7, 19, 0.82));
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(201, 164, 90, 0.4),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(108, 11, 28, 0.32),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(108, 11, 28, 0.9),
+      rgba(72, 7, 19, 0.82)
+    );
 }
 
 .reveal-up {
@@ -95,7 +111,12 @@ body {
   width: 38%;
   height: 320%;
   transform: rotate(25deg);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
   transition: left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
