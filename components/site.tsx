@@ -7,6 +7,7 @@ import type { MouseEvent } from "react";
 import { dictionary, packages, type Lang, type Package } from "@/lib/content";
 import { Icon } from "./icons";
 import { Hero } from "./hero";
+import Intro from "./intro"
 
 type Copy = (typeof dictionary)[Lang];
 type Status = "idle" | "sending" | "success" | "error";
