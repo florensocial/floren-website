@@ -288,12 +288,14 @@ export function Contact({ lang, selectedPackage = "", standalone = false }: { la
           {packageItem ? (
             <div className="mt-10 max-w-md rounded-[2rem] border border-[#6C0B1C]/15 bg-white p-6 shadow-[0_24px_70px_rgba(72,7,19,.08)]">
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#6C0B1C]">{t.package}</p>
-              <div className="mt-5 flex items-end justify-between gap-6">
+              
+              <div className="mt-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="font-serif text-4xl text-[#480713]">{packageItem.name}</p>
-                  <p className="mt-2 text-sm text-[#5E5E5E]">{packageItem.description}</p>
+                  <p className="font-serif text-3xl text-[#480713]">{packageItem.name}</p>
+                  <p className="mt-1 text-sm text-[#5E5E5E]">{packageItem.description}</p>
                 </div>
-                <p className="shrink-0 font-serif text-4xl text-[#6C0B1C]">{packageItem.price}</p>
+                
+                <p className="shrink-0 font-serif text-3xl text-[#6C0B1C]">{packageItem.price}</p>
               </div>
             </div>
           ) : null}
