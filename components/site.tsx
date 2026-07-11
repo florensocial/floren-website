@@ -277,7 +277,7 @@ export function Contact({ lang, selectedPackage = "", standalone = false }: { la
   }
 
   return (
-    <section id="contact" className={`relative px-6 ${standalone ? "min-h-screen pt-36" : "py-32 md:py-40 md:pb-64"}`}>
+    <section id="contact" className={`relative px-6 ${standalone ? "min-h-screen pt-36" : "py-32 md:py-40"}`}>
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_10%,rgba(201,164,90,.05),transparent_26%),radial-gradient(circle_at_85%_45%,rgba(108,11,28,.08),transparent_30%)]" />
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div className="reveal-up lg:sticky lg:top-32">
