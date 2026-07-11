@@ -397,11 +397,6 @@ function Footer({ t }: { t: Copy }) {
           <p className="text-[11px] text-[#5E5E5E]">
             © {new Date().getFullYear()} Floren.
           </p>
-          
-          <div className="flex gap-4 text-[11px] text-[#5E5E5E]">
-            <Link href="/privacy" className="hover:text-[#6C0B1C]">{t.footer.privacy}</Link>
-            <Link href="/imprint" className="hover:text-[#6C0B1C]">{t.footer.imprint}</Link>
-          </div>
         </div>
 
       </div>
