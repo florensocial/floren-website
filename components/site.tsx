@@ -386,8 +386,8 @@ function Footer({ t }: { t: Copy }) {
             
             <div className="flex flex-col gap-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1B1B1B]">Socials</p>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#5E5E5E] hover:text-[#6C0B1C]">Instagram</a>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#5E5E5E] hover:text-[#6C0B1C]">TikTok</a>
+              <a href="https://www.instagram.com/floren_social/" target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#5E5E5E] hover:text-[#6C0B1C]">Instagram</a>
+              <a href="https://www.tiktok.com/@floren_social" target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#5E5E5E] hover:text-[#6C0B1C]">TikTok</a>
             </div>
           </div>
         </div>
